@@ -1,29 +1,15 @@
-# Built-in data structure implementation of pencils:
-#   pencil = ["yellow", "2B", true, true]
-#   pencil1 = ["red", "4H", true, false]
-#   pencil2 = ["green", "3B", false, false]
-#  
-#   def color(pencil)
-#     pencil[0]
-#   end
-# 
-#   def hardness(pencil)
-#     pencil[1]
-#   end
+require 'pry'
 
 class Pencil
-  attr_reader :color, :hardness, :is_mechanical, :lead_color,
-              :lead_width
-  attr_accessor :has_eraser, :length
+  attr_reader :color, :lead_color, :hardness
+  attr_accessor :length, :has_eraser
 
   def initialize(args = {})
-    @color = args[:color] || :yellow
+    @color = args[:color]
+    @lead_color = args[:lead_color] || "black"
     @hardness = args[:hardness] || "2"
-    @has_eraser = args.fetch(:has_eraser, true)
-    @is_mechanical = args.fetch(:is_mechanical, false)
-    @lead_color = args[:lead_color] || "gray"
-    @lead_width = args[:lead_width] || 0.7 #in millimeters
     @length = args[:length] || 10 # in inches
+    @has_eraser = args.fetch(:has_eraser, true)
   end
 
   def write(message)
@@ -35,17 +21,65 @@ class Pencil
   end
 end
 
-pencil_a = Pencil.new(color: :yellow,
-                      hardness: "2B",
-                      has_eraser: true,
-                      is_mechanical: true)
+class StandardPencil < Pencil
+  def initialize(args = {})
+    super(args)
+    @color = args[:color] || :yellow
+  end
+end
 
-pencil_b = Pencil.new(color: :red,
+class MechanicalPencil < Pencil
+  attr_reader :lead_width
+
+  def initialize(args = {})
+    super(args)
+    # @color = args[:color]
+    # @lead_color = args[:lead_color] || "black"
+    # @hardness = args[:hardness] || "2"
+    # @length = args[:length] || 10 # in inches
+    # @has_eraser = args.fetch(:has_eraser, true)
+    @lead_width = args[:lead_width] || 0.7 #in millimeters
+  end
+
+  def is_mechanical?
+    true
+  end
+
+  def needs_refill?
+    false
+  end
+end
+
+class ColoredPencil < Pencil
+end
+
+class PencilBox
+  attr_accessor :pencils
+
+  def initialize(args = {})
+    @pencils = args[:pencils] || []
+  end
+end
+
+
+pencil_a = MechanicalPencil.new(color: :yellow,
+                                hardness: "2B",
+                                has_eraser: true)
+
+pencil_b = StandardPencil.new(color: :red,
                       hardness: "4H",
-                      has_eraser: true,
-                      is_mechanical: false)
+                      has_eraser: true)
 
-pencil_c = Pencil.new(color: :green, 
+pencil_c = ColoredPencil.new(color: :green,
+                      lead_color: "purple", 
                       hardness: "3B", 
-                      has_eraser: false,
-                      is_mechanical: false)
+                      has_eraser: false)
+
+puts kristie = PencilBox.new(pencils: [pencil_a, pencil_b, pencil_c])
+
+puts marcel = PencilBox.new()
+
+puts james = PencilBox.new()
+binding.pry
+james.pencils << pencil_b
+
