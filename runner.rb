@@ -5,28 +5,31 @@ require_relative 'pencil'
 require_relative 'pen'
 require_relative 'crayon'
 require_relative 'pastel'
+require_relative 'user'
 
-pencil_a = MechanicalPencil.new(color: :yellow,
-                                hardness: "2B",
-                                has_eraser: true)
+common_pencil = StandardPencil.new(hardness: "2", has_eraser: true)
+common_pen1 = Pen.new(ink_color: :blue)
+common_pen2 = Pen.new(ink_color: :black, width: 0.5)
+common_crayon1 = Crayon.new(wax_color: :black)
+common_crayon2 = Crayon.new(wax_color: :red)
+common_crayon3 = Crayon.new(wax_color: :yellow)
+common_crayon4 = Crayon.new(wax_color: :blue)
 
-pencil_b = StandardPencil.new(color: :red,
-                      hardness: "4H",
-                      has_eraser: true)
+rare_pencil1 = MechanicalPencil.new(lead_color: :cyan,
+                                    color: :black,
+                                    hardness: "7H",
+                                    has_eraser: false)
+rare_pencil2 = ColoredPencil.new(color: :green,
+                                 lead_color: :purple, 
+                                 hardness: "3B", 
+                                 has_eraser: false)
+rare_pen = Pen.new(ink_color: :light_red)
+rare_pastel = Pastel.new(color: :light_purple)
+rare_crayon = Crayon.new(wax_color: :purple)
 
-pencil_c = ColoredPencil.new(color: :green,
-                      lead_color: :purple, 
-                      hardness: "3B", 
-                      has_eraser: false)
+COMMON_IMPLEMENTS = [common_pencil, common_pen1, common_pen2,
+                     common_crayon1, common_crayon2, common_crayon3,
+                     common_crayon4]
 
-pen = Pen.new(ink_color: :red)
-
-crayon = Crayon.new(wax_color: :purple)
-
-puts kristie = PencilBox.new(pencils: [pencil_a, pencil_b, pencil_c])
-
-puts marcel = PencilBox.new()
-
-puts james = PencilBox.new()
-binding.pry
-james.pencils << pencil_b
+RARE_IMPLEMENTS = [rare_pencil1, rare_pencil2, rare_pen, rare_pastel,
+                   rare_crayon]
